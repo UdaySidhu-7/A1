@@ -3,45 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>F1 Dashboard - Home</title>
-    <link rel="stylesheet" href="styles.css"> <!-- Link to your CSS file -->
+    <title>F1 Dashboard Project</title>
+    <link rel="stylesheet" href="styles/styles.css"> <!-- Ensure correct path to CSS -->
 </head>
 <body>
-    <!-- Header Bar -->
+    
     <header>
         <div class="header-content">
-            <h1>F1 Dashboard Project</h1>
+            <div class="header-left">
+                <a href="index.php">
+                    <img src="images/newlogo.png" alt="F1 Logo" class="logo">
+                </a>
+                <h1>Season 2022</h1>
+            </div>
             <nav>
                 <ul>
                     <li><a href="index.php">Home</a></li>
-                    <li><a href="browse.php">Browse</a></li>
+                    <li><a href="browse.php">Browse Races</a></li>
                     <li><a href="api_tester.php">APIs</a></li>
                 </ul>
             </nav>
         </div>
     </header>
 
-    <!-- Main Container -->
-    <div class="dashboard-container">
-        <!-- Sidebar -->
-        <aside class="sidebar">
-            <div class="sidebar-content">
-                <h2>About this Project</h2>
-                <p>#1 for COMP3512 at Mount Royal University, showcase data from Formula 1 races using SQLite and PHP.</p>
-                <p><strong>Technologies Used:</strong> SQLite, PHP, CSS</p>
-                
-                <a href="browse.php" class="btn">Browse Races</a>
-            </div>
-        </aside>
+    
+    <section class="hero-section">
+        <div class="hero-content">
+            <h2>Welcome to the F1 Season 2022</h2>
+            <p>Your ultimate resource for Formula 1 race data. Explore races, drivers, constructors, and much more from the 2022 season.</p>
+            <a href="browse.php" class="btn-cta">Start Exploring</a>
+        </div>
+    </section>
 
-        <!-- Main Content -->
-        <main class="content">
-            <h2>Welcome to the F1 Dashboard Project</h2>
-            <p>This site allows you to explore Formula 1 race data, including circuits, drivers, constructors, races, qualifying results, and final results. You can use the navigation bar to explore various sections of the dashboard.</p>
-        </main>
+    
+    <div class="dashboard-container">
+        <div class="features-grid">
+            <div class="feature-card">
+                <h3>Browse Races</h3>
+                <p>View the race schedules, results, and circuit details for the 2022 Formula 1 season.</p>
+                <a href="browse.php" class="btn-small">Browse Now</a>
+            </div>
+            <div class="feature-card">
+                <h3>Explore Drivers</h3>
+                <p>Learn more about the drivers from the 2022 season.</p>
+                <a href="drivers.php" class="btn-small">See Drivers</a>
+            </div>
+            <div class="feature-card">
+                <h3>Discover Constructors</h3>
+                <p>Find out more about the teams and constructors that built the cars.</p>
+                <a href="constructors.php" class="btn-small">View Constructors</a>
+            </div>
+            <div class="feature-card">
+                <h3>Test APIs</h3>
+                <p>Use the provided APIs to fetch data from the 2022 season including races, drivers, and constructors.</p>
+                <a href="api_tester.php" class="btn-small">Test APIs</a>
+            </div>
+        </div>
     </div>
 
-    <!-- Footer -->
+   
     <footer>
         <p>&copy; 2024 F1 Dashboard Project - COMP3512</p>
     </footer>
