@@ -1,3 +1,56 @@
+<?php
+try {
+    $db = new PDO('sqlite:data/f1.db');
+    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    die('Could not connect to the database: ' . $e->getMessage());
+}
+
+// Function to get all constructors for the 2022 season
+function getConstructors($db) {
+    $stmt = $db->query("SELECT DISTINCT c.constructorRef, c.name, c.nationality, c.url 
+                        FROM constructors c
+                        JOIN results r ON c.constructorId = r.constructorId
+                        JOIN races ra ON r.raceId = ra.raceId
+                        WHERE ra.year = 2022  
+                        ORDER BY c.name ASC");
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+// Function to get drivers associated with a constructor for 2022 
+function getConstructorDrivers($db, $constructorRef) {
+    $stmt = $db->prepare("SELECT d.driverRef, d.forename, d.surname 
+                          FROM drivers d
+                          JOIN results r ON d.driverId = r.driverId
+                          JOIN constructors c ON r.constructorId = c.constructorId
+                          JOIN races ra ON r.raceId = ra.raceId
+                          WHERE c.constructorRef = :constructorRef AND ra.year = 2022 
+                          GROUP BY d.driverRef
+                          ORDER BY d.forename ASC, d.surname ASC");
+    $stmt->bindValue(':constructorRef', $constructorRef, PDO::PARAM_STR);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+// Fetch all constructors for the 2022 
+$constructors = getConstructors($db);
+$selectedConstructor = null;
+$constructorDrivers = null;
+
+if (isset($_GET['constructorRef'])) {
+    $constructorRef = $_GET['constructorRef'];
+    foreach ($constructors as $constructor) {
+        if ($constructor['constructorRef'] == $constructorRef) {
+            $selectedConstructor = $constructor;
+            $constructorDrivers = getConstructorDrivers($db, $constructorRef);
+            break;
+        }
+    }
+}
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
