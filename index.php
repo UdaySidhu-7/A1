@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>F1 Dashboard Project</title>
-    <link rel="stylesheet" href="styles/styles.css"> <!-- Ensure correct path to CSS -->
+    <link rel="stylesheet" href="styles/styles.css"> 
 </head>
 <body>
     
@@ -21,7 +21,7 @@
                     <li><a href="index.php">Home</a></li>
                     <li><a href="browse.php">Browse Races</a></li>
                     <li><a href="api_tester.php">APIs</a></li>
-                    <li><a href="https://github.com/UdaySidhu-7/A1/tree/main"> Link to Github Repo</a></li>
+                    <li><a href="https://github.com/UdaySidhu-7/A1/tree/main" target="_blank"> Link to Github Repo</a></li>
                 </ul>
             </nav>
         </div>
