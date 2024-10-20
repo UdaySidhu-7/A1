@@ -65,7 +65,7 @@
    
     <footer>
         <p>&copy; 2024 F1 Dashboard Project - COMP3512</p>
-        <p>Gamanpreet Kaur<br> Udaypartap Singh Sidhu</p>
+        <p><br>Gamanpreet Kaur<br> Udaypartap Singh Sidhu</p>
     </footer>
 </body>
 </html>
