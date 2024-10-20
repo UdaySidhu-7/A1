@@ -21,6 +21,7 @@
                     <li><a href="index.php">Home</a></li>
                     <li><a href="browse.php">Browse Races</a></li>
                     <li><a href="api_tester.php">APIs</a></li>
+                    <li><a href="https://github.com/UdaySidhu-7/A1/tree/main"> Link to Github Repo</a></li>
                 </ul>
             </nav>
         </div>
@@ -64,6 +65,7 @@
    
     <footer>
         <p>&copy; 2024 F1 Dashboard Project - COMP3512</p>
+        <p>Gamanpreet Kaur<br> Udaypartap Singh Sidhu</p>
     </footer>
 </body>
 </html>
