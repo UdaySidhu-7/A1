@@ -1,3 +1,47 @@
+<?php
+try {
+    $db = new PDO('sqlite:data/f1.db');
+    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    die('Could not connect to the database: ' . $e->getMessage());
+}
+
+// Function to get all races for the 2022 season
+function getRaces($db) {
+    $stmt = $db->query("SELECT r.raceId, r.name AS raceName, r.date, r.round, c.name AS circuitName, c.location, c.country, c.url
+                        FROM races r
+                        JOIN circuits c ON r.circuitId = c.circuitId
+                        WHERE r.year = 2022
+                        ORDER BY r.date, raceName, r.name ASC ");
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+// Function to get qualifying and final results for the top 3 drivers of a race
+function getRaceResults($db, $raceId) {
+    $stmt = $db->prepare("SELECT rr.position, d.driverRef, d.forename, d.surname, q.q1, q.q2, q.q3, rr.points
+                          FROM results rr
+                          JOIN drivers d ON rr.driverId = d.driverId
+                          LEFT JOIN qualifying q ON q.driverId = d.driverId AND q.raceId = rr.raceId
+                          WHERE rr.raceId = :raceId
+                          ORDER BY rr.position ASC
+                          LIMIT 3");
+    $stmt->bindValue(':raceId', $raceId, PDO::PARAM_INT);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+$races = getRaces($db);
+$raceDetails = null;
+if (isset($_GET['raceId'])) {
+    $raceId = $_GET['raceId'];
+    foreach ($races as $race) {
+        if ($race['raceId'] == $raceId) {
+            $raceDetails = $race;
+            $raceResults = getRaceResults($db, $raceId);
+            break;
+        }
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
