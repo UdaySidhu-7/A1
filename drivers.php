@@ -1,3 +1,54 @@
+<?php
+try {
+    $db = new PDO('sqlite:data/f1.db');
+    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    die('Could not connect to the database: ' . $e->getMessage());
+}
+
+// Function to get all drivers with their constructors for the 2022 season in ascending order by name
+function getDriversWithConstructors($db) {
+    $stmt = $db->query("SELECT d.driverRef, d.forename, d.surname, d.nationality, c.name AS constructor, c.constructorRef
+                        FROM drivers d
+                        JOIN results r ON d.driverId = r.driverId
+                        JOIN constructors c ON r.constructorId = c.constructorId
+                        JOIN races ra ON r.raceId = ra.raceId
+                        WHERE ra.year = 2022
+                        GROUP BY d.driverRef
+                        ORDER BY d.forename ASC, d.surname ASC");  //order by name
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+// Function to get race results for a driver for the 2022 season
+function getDriverRaceResults($db, $driverRef) {
+    $stmt = $db->prepare("SELECT r.round, c.name as circuitName, rr.position, rr.points
+                          FROM results rr
+                          JOIN races r ON rr.raceId = r.raceId
+                          JOIN circuits c ON r.circuitId = c.circuitId
+                          JOIN drivers d ON rr.driverId = d.driverId
+                          WHERE d.driverRef = :driverRef AND r.year = 2022  
+                          ORDER BY r.round ASC");
+    $stmt->bindValue(':driverRef', $driverRef, PDO::PARAM_STR);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+// Fetch all drivers with constructors for 2022
+$drivers = getDriversWithConstructors($db);
+$selectedDriver = null;
+$raceResults = null;
+
+if (isset($_GET['driverRef'])) {
+    $driverRef = $_GET['driverRef'];
+    foreach ($drivers as $driver) {
+        if ($driver['driverRef'] == $driverRef) {
+            $selectedDriver = $driver;
+            $raceResults = getDriverRaceResults($db, $driverRef);
+            break;
+        }
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
